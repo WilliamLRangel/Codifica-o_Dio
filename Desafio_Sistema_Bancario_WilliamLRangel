@@ -1,0 +1,50 @@
+menu = """
+[d] Depositar
+[s] Sacar
+[e] Extrato
+[q] Sair
+
+=> """
+
+saldo = 0
+limite_saque_unitario = 500
+extrato = {}
+numero_saques = 0
+LIMITE_SAQUES = 3
+identificador = 1
+
+while True:
+    opcao = input(menu)
+
+    if opcao == "d":
+        valor_deposito = float(input("Digite o valor do depósito: "))
+        if valor_deposito > 0:
+            saldo += valor_deposito
+            extrato[identificador] = f"Depósito {identificador}: +R${valor_deposito:.2f}"
+            identificador += 1
+        else:
+            print("Valor de depósito inválido.")
+    
+    elif opcao == "s":
+        valor_saque = float(input("Digite o valor do saque: "))
+        if valor_saque > 0 and valor_saque <= limite_saque_unitario and saldo >= valor_saque:
+            saldo -= valor_saque
+            numero_saques += 1
+            extrato[identificador] = f"Saque {identificador}: -R${valor_saque:.2f}"
+            identificador += 1
+            print(f"Saque de R${valor_saque:.2f} realizado com sucesso.")
+        else:
+            print("Valor de saque inválido (Limite de maximo de 500 reais).")
+    
+    elif opcao == "e":
+        print("Extrato:")
+        for id, transacao in extrato.items():
+            print(transacao)
+        print(f"Saldo atual: R${saldo:.2f}")
+    
+    elif opcao == "q":
+        print("Obrigado pela preferência e volte sempre!")
+        break
+
+    else:
+        print("Opção inválida. Escolha novamente.")
